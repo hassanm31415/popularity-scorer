@@ -1,5 +1,8 @@
 package me.redcare.popularity.scorer.client;
 
+import io.github.resilience4j.circuitbreaker.CircuitBreaker;
+import io.github.resilience4j.circuitbreaker.CircuitBreakerRegistry;
+import io.github.resilience4j.reactor.circuitbreaker.operator.CircuitBreakerOperator;
 import me.redcare.popularity.scorer.client.dto.GitHubSearchResponse;
 import me.redcare.popularity.scorer.config.GitHubConfig;
 import org.slf4j.Logger;
@@ -19,9 +22,19 @@ public class GitHubClient {
     private static final Logger logger = LoggerFactory.getLogger(GitHubClient.class);
 
     private final WebClient webClient;
+    private final CircuitBreaker circuitBreaker;
 
-    public GitHubClient(WebClient.Builder webClientBuilder, GitHubConfig gitHubConfig) {
+    public GitHubClient(WebClient.Builder webClientBuilder, GitHubConfig gitHubConfig, CircuitBreakerRegistry circuitBreakerRegistry) {
         this.webClient = webClientBuilder.baseUrl(gitHubConfig.getBaseUrl()).build();
+        this.circuitBreaker = circuitBreakerRegistry.circuitBreaker("githubClient");
+
+        circuitBreaker.getEventPublisher()
+                .onStateTransition(event ->
+                        logger.info("CircuitBreaker State Changed: {}", event.getStateTransition()))
+                .onSuccess(event ->
+                        System.out.println("Call succeeded"))
+                .onError(event ->
+                        System.out.println("Call failed: " + event.getThrowable().getMessage()));
     }
 
     /**
@@ -42,6 +55,7 @@ public class GitHubClient {
                         .build())
                 .retrieve()
                 .bodyToMono(GitHubSearchResponse.class)
+                .transformDeferred(CircuitBreakerOperator.of(circuitBreaker))
                 .doOnSuccess(response -> logger.info("GitHub client returned {} items", response.items() != null ? response.items().size() : 0))
                 .doOnError(error -> logger.error("GitHub API call failed", error));
     }

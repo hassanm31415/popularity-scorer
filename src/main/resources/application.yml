@@ -29,9 +29,6 @@ resilience4j.circuitbreaker:
       failureRateThreshold: 50
       slidingWindowSize: 10
       waitDurationInOpenState: 30s
-      recordExceptions:
-        - org.springframework.web.reactive.function.client.WebClientResponseException$Forbidden
-        - org.springframework.web.reactive.function.client.WebClientResponseException
 
 github:
   base-url: "https://api.github.com"

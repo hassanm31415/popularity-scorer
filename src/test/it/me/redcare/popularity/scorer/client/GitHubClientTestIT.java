@@ -3,6 +3,7 @@ package me.redcare.popularity.scorer.client;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
+import io.github.resilience4j.circuitbreaker.CircuitBreakerRegistry;
 import me.redcare.popularity.scorer.config.GitHubConfig;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -12,6 +13,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.test.StepVerifier;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
+import static org.mockito.Mockito.mock;
 
 class GitHubClientTestIT {
 
@@ -35,14 +37,13 @@ class GitHubClientTestIT {
 
     @BeforeEach
     void setUp() {
-
         String baseUrl = "http://localhost:" + wireMockServer.port();
         WebClient.Builder builder = WebClient.builder()
                 .baseUrl(baseUrl);
 
         GitHubConfig gitHubConfig = new GitHubConfig();
         gitHubConfig.setBaseUrl(baseUrl);
-        gitHubClient = new GitHubClient(builder, gitHubConfig);
+        gitHubClient = new GitHubClient(builder, gitHubConfig,  CircuitBreakerRegistry.ofDefaults());
     }
 
     @Test
