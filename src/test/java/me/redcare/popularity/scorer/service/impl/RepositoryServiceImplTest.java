@@ -1,21 +1,28 @@
 package me.redcare.popularity.scorer.service.impl;
 
 import me.redcare.popularity.scorer.client.GitHubClient;
+import me.redcare.popularity.scorer.client.dto.GitHubRepoItem;
+import me.redcare.popularity.scorer.client.dto.GitHubSearchResponse;
 import me.redcare.popularity.scorer.controller.dto.RepositoryScoringRequest;
 import me.redcare.popularity.scorer.controller.dto.RepositoryScoringResponse;
 import me.redcare.popularity.scorer.controller.dto.ScoredRepositoryDTO;
 import me.redcare.popularity.scorer.mapper.RepositoryMapper;
-import me.redcare.popularity.scorer.client.dto.GitHubRepoItem;
-import me.redcare.popularity.scorer.client.dto.GitHubSearchResponse;
 import me.redcare.popularity.scorer.scorer.PopularityScorer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.*;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import reactor.core.publisher.Mono;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
 public class RepositoryServiceImplTest {

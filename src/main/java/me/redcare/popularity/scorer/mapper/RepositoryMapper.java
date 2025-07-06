@@ -1,7 +1,7 @@
 package me.redcare.popularity.scorer.mapper;
 
-import me.redcare.popularity.scorer.controller.dto.ScoredRepositoryDTO;
 import me.redcare.popularity.scorer.client.dto.GitHubRepoItem;
+import me.redcare.popularity.scorer.controller.dto.ScoredRepositoryDTO;
 import org.springframework.stereotype.Component;
 
 @Component

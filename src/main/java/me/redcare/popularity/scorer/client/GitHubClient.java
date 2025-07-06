@@ -1,7 +1,7 @@
 package me.redcare.popularity.scorer.client;
 
-import me.redcare.popularity.scorer.config.GitHubConfig;
 import me.redcare.popularity.scorer.client.dto.GitHubSearchResponse;
+import me.redcare.popularity.scorer.config.GitHubConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
