@@ -32,7 +32,7 @@ Final score ranges from **0 (lowest)** to **100 (highest)**.
 - 🛠️ Recent Updates: 10%
 
 
-Where recentUpdateBonus is applied for repositories updated within the last 30 days.
+Where recentUpdateBonus is applied for repositories updated within the last year.
 
 ### 2️⃣ Simple Scorer
 
