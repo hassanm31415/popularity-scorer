@@ -30,11 +30,7 @@ public class GitHubClient {
 
         circuitBreaker.getEventPublisher()
                 .onStateTransition(event ->
-                        logger.info("CircuitBreaker State Changed: {}", event.getStateTransition()))
-                .onSuccess(event ->
-                        System.out.println("Call succeeded"))
-                .onError(event ->
-                        System.out.println("Call failed: " + event.getThrowable().getMessage()));
+                        logger.info("CircuitBreaker State Changed: {}", event.getStateTransition()));
     }
 
     /**
