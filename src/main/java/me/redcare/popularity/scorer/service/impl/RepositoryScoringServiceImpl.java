@@ -37,9 +37,9 @@ public class RepositoryScoringServiceImpl implements RepositoryScoringService {
      * Searches repositories and applies the specified popularity scoring strategy.
      *
      * @param request The search request and options
-     * @return List of repositories with scores
+     * @return A Mono emitting a {@link RepositoryScoringResponse} containing the total count and
+     * a sorted list of scored repositories.
      */
-    //@Async("popularityTaskExecutor")
     public Mono<RepositoryScoringResponse> scoreRepositories(RepositoryScoringRequest request) {
         logger.info("Scoring repositories with query: {}", request);
 
