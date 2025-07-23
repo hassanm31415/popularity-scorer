@@ -9,7 +9,7 @@ server:
 logging:
   level:
     root: INFO
-    me.mohamed.redcare.popularityscore: TRACE
+    me.redcare.popularity.scorer: DEBUG
 
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
