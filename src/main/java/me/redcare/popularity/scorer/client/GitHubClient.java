@@ -25,7 +25,11 @@ public class GitHubClient {
     private final CircuitBreaker circuitBreaker;
 
     public GitHubClient(WebClient.Builder webClientBuilder, GitHubConfig gitHubConfig, CircuitBreakerRegistry circuitBreakerRegistry) {
-        this.webClient = webClientBuilder.baseUrl(gitHubConfig.getBaseUrl()).build();
+        this.webClient = webClientBuilder
+                .filter((request, next) -> {
+                    logger.debug("WebClient Request: {} {}", request.method(), request.url());
+                    return next.exchange(request);
+                }).baseUrl(gitHubConfig.getBaseUrl()).build();
         this.circuitBreaker = circuitBreakerRegistry.circuitBreaker("githubClient");
 
         circuitBreaker.getEventPublisher()
